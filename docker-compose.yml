@@ -1,0 +1,28 @@
+services:
+  mitmproxy:
+    restart: always
+    image: mitmproxy/mitmproxy
+    command:
+      ["mitmdump", "-v", "--proxyauth=${PROXY_AUTH}", "--ignore", "${IGNORE}"]
+    volumes:
+      - "./certs/:/home/mitmproxy/.mitmproxy/"
+    ports:
+      - "8081:8080"
+
+  traefik:
+    image: traefik
+    environment:
+      TRAEFIK_PROVIDERS_FILE_FILENAME: "/traefik-providers.yml"
+    restart: always
+    volumes:
+      - "./traefik.yml:/etc/traefik/traefik.yml"
+      - "./traefik-dynamic.yml:/etc/traefik/traefik-dynamic.yml"
+      - "./certs/:/certs"
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+    ports:
+      - "8888:8888"
+      - "8443:8443"
+      - "8080:8080"
+
+volumes:
+  mitm: {}

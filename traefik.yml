@@ -1,0 +1,17 @@
+log:
+  level: "DEBUG"
+
+api:
+  insecure: true
+
+providers:
+  file:
+    filename: "/etc/traefik/traefik-dynamic.yml"
+    watch: true
+
+entryPoints:
+  proxy:
+    address: ":8888"
+
+  proxy-secure:
+    address: ":8443"

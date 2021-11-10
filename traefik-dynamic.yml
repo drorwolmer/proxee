@@ -1,0 +1,26 @@
+tcp:
+  routers:
+    mitmproxy-http:
+      rule: HostSNI(`*`)
+      entrypoints:
+        - proxy
+      service: mitmproxy
+    mitmproxy-htts:
+      rule: HostSNI(`*`)
+      tls: {}
+      entrypoints:
+        - proxy-secure
+      service: mitmproxy
+
+  services:
+    mitmproxy:
+      loadBalancer:
+        servers:
+          - address: mitmproxy:8080
+
+tls:
+  stores:
+    default:
+      defaultCertificate:
+        certFile: /certs/mitmproxy-ca-cert.cer
+        keyFile: /certs/mitmproxy-ca.pem
