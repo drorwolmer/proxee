@@ -22,5 +22,5 @@ tls:
   stores:
     default:
       defaultCertificate:
-        certFile: /certs/mitmproxy-ca-cert.cer
+        certFile: /certs/mitmproxy-ca-cert.pem
         keyFile: /certs/mitmproxy-ca.pem
