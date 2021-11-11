@@ -41,8 +41,10 @@ curl https://google.com -x http://localhost:8080 -vv
 
 1. Create a DNS record (or edit `/etc/hosts`) for the proxy server
 2. Install the root certificate on the client
+3. The proxy will present its certificate with the subject that was requested (`proxy.foo` in the below example)
 
 ```sh
 ./proxee.sh
 curl https://google.com -x https://proxy.foo:8443 -vv
 ```
+
