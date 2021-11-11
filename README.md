@@ -5,6 +5,7 @@ Easily test various proxy configurations:
 ## How it works
 
 - uses [mitmproxy](https://mitmproxy.org/) under the hood
+  
   Read `docker-compose.yml` to see the trick which enables listening on `https://`
 - Starts a proxy which listens on two ports, both `http` and `https`:
   - `8080` for the web traffic
