@@ -6,6 +6,7 @@ services:
       [
         "mitmdump",
         "-v",
+        "--proxyauth=${PROXY_AUTH}",
         "--upstream-auth=${PROXY_AUTH}",
         "--mode=upstream:http://mitmproxy:8080",
         "--showhost",
