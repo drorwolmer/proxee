@@ -1,12 +1,17 @@
-# PROXEE
+```sh
+# ██████  ██████   ██████  ██   ██ ███████ ███████
+# ██   ██ ██   ██ ██    ██  ██ ██  ██      ██
+  ██████  ██████  ██    ██   ███   █████   █████
+# ██      ██   ██ ██    ██  ██ ██  ██      ██
+# ██      ██   ██  ██████  ██   ██ ███████ ███████
+```
 
 Easily test various proxy configurations:
 
 ## How it works
 
 - uses [mitmproxy](https://mitmproxy.org/) under the hood
-  
-  Read `docker-compose.yml` to see the trick which enables listening on `https://`
+- uses two proxies, one acting as an SSL terminating reverse proxy
 - Starts a proxy which listens on two ports, both `http` and `https`:
   - `8080` for the web traffic
   - one for the API traffic
@@ -14,14 +19,18 @@ Easily test various proxy configurations:
 ## Usage
 
 ```sh
-# Proxy without authentication and SSL Interception
-./proxee.sh
+docker run -v "$(pwd)/certs/:/home/mitmproxy/.mitmproxy" --rm -it -p 8000:8000 -p 8443:8443 -p 8080:8080 drorwolmer/proxee
+
 
 # Add Proxy Authentication
-AUTH="admin:123456" ./proxee.sh
+docker run --rm -it -p 8080:8080 drorwolmer/proxee --auth admin:123456
+
 
 # Enable SSL Interception
-INTERCEPT=1 ./proxee.sh
+# - Browse http://localhost:8000 to get the certificates
+# - Install them according to https://docs.mitmproxy.org/stable/concepts-certificates/
+docker run --rm -it -p 8000:8000 -p 8080:8080 drorwolmer/proxee --intercept
+
 
 # Both Auth and Intercept
 INTERCEPT=1 AUTH="admin:123456" ./proxee.sh
@@ -29,12 +38,11 @@ INTERCEPT=1 AUTH="admin:123456" ./proxee.sh
 
 ## How do I test SSL Interception
 
-1. Install `mitmproxy` root certificate from `certs/`
-   (https://docs.mitmproxy.org/stable/concepts-certificates/)
-
 ```sh
-INTERCEPT=1 ./proxee.sh
-curl https://google.com -x http://localhost:8080 -vv
+docker run --rm -it -p 8000:8000 -p 8080:8080 drorwolmer/proxee --intercept
+
+# - Browse http://localhost:8000 to get the certificates
+# - Install them according to https://docs.mitmproxy.org/stable/concepts-certificates
 ```
 
 ## How do I test a proxy listening on `https://`
@@ -44,7 +52,12 @@ curl https://google.com -x http://localhost:8080 -vv
 3. The proxy will present its certificate with the subject that was requested (`proxy.foo` in the below example)
 
 ```sh
-./proxee.sh
-curl https://google.com -x https://proxy.foo:8443 -vv
+docker run \
+  --rm \
+  -v "$(pwd)/certs/:/home/mitmproxy/.mitmproxy" \
+  -it \
+  -p 8000:8000 \
+  -p 8443:8443 \
+  drorwolmer/proxee \
+  --intercept --basename proxy.foo
 ```
-
