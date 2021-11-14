@@ -45,10 +45,6 @@ docker run --rm -it -p 8080:8080 drorwolmer/proxee --auth admin:123456
 # - Browse http://localhost:8000 to get the certificates
 # - Install them according to https://docs.mitmproxy.org/stable/concepts-certificates/
 docker run --rm -it -p 8000:8000 -p 8080:8080 drorwolmer/proxee --intercept
-
-
-# Both Auth and Intercept
-INTERCEPT=1 AUTH="admin:123456" ./proxee.sh
 ```
 
 ## How do I test SSL Interception
