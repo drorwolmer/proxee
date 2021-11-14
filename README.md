@@ -19,7 +19,22 @@ Easily test various proxy configurations:
 ## Usage
 
 ```sh
-docker run -v "$(pwd)/certs/:/home/mitmproxy/.mitmproxy" --rm -it -p 8000:8000 -p 8443:8443 -p 8080:8080 drorwolmer/proxee
+-a, --auth <username:password>  Proxy Proxy authentication
+-b, --basename <basename>       Proxy basename [when listening on https://] defaults to proxy.foo
+-i, --intercept	                Enable SSL Interception
+-h, --help                  	Show this help
+```
+
+## Running in Docker
+
+```sh
+docker run \
+  -v "$(pwd)/certs/:/home/mitmproxy/.mitmproxy" \
+  --rm -it \
+  -p 8000:8000 \
+  -p 8443:8443
+  -p 8080:8080
+  drorwolmer/proxee
 
 
 # Add Proxy Authentication
