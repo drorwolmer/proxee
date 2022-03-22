@@ -32,8 +32,8 @@ docker run \
   -v "$(pwd)/certs/:/home/mitmproxy/.mitmproxy" \
   --rm -it \
   -p 8000:8000 \
-  -p 8443:8443
-  -p 8080:8080
+  -p 8443:8443 \
+  -p 8080:8080 \
   drorwolmer/proxee
 
 
