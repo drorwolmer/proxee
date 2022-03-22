@@ -49,6 +49,8 @@ docker run --rm -it -p 8000:8000 -p 8080:8080 drorwolmer/proxee --intercept
 
 ## How do I test SSL Interception
 
+the root CA file is `mitmproxy-ca-cert.pem`
+
 ```sh
 docker run --rm -it -p 8000:8000 -p 8080:8080 drorwolmer/proxee --intercept
 
